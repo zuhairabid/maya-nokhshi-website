@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Language, Currency, View, Product } from './types';
 import { TRANSLATIONS, PRODUCTS, EXCHANGE_RATE } from './constants';
 import Header from './components/Header';
@@ -10,7 +10,6 @@ import ProductGrid from './components/ProductGrid';
 import Values from './components/Values';
 import Footer from './components/Footer';
 
-// Sub-components for pages
 const ProductDetailPage: React.FC<{
   product: Product;
   formatPrice: (p: number) => string;
@@ -89,6 +88,22 @@ const App: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string | undefined>(undefined);
 
+  // Auto-detect location for Language and Currency
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        // Rough bounding box for Bangladesh (Latitude: 20-26, Longitude: 88-92)
+        if (latitude >= 20 && latitude <= 26 && longitude >= 88 && longitude <= 93) {
+          setLanguage('BN');
+          setCurrency('BDT');
+        }
+      }, (error) => {
+        console.log("Geolocation blocked or failed. Defaulting to EN/USD.");
+      });
+    }
+  }, []);
+
   const t = TRANSLATIONS[language];
 
   const formatPrice = useCallback((usdPrice: number) => {
@@ -134,6 +149,7 @@ const App: React.FC = () => {
         t={t}
         onHomeClick={navigateToHome}
         onExploreClick={() => { setView('products'); setCategoryFilter(undefined); }}
+        onCategoryClick={navigateToCategory}
       />
       
       <main>
