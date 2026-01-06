@@ -27,7 +27,7 @@ const Story: React.FC<StoryProps> = ({ t }) => {
         <div className="flex-1 relative">
            <div className="relative z-10 rounded-sm overflow-hidden shadow-2xl">
              <img 
-               src="https://images.unsplash.com/photo-1544473403-5ca706727239?auto=format&fit=crop&q=80&w=1200" 
+               src="https://images.unsplash.com/photo-1679783837188-a0f2297afe32?fm=jpg&q=60&w=3000" 
                alt="Artisan at work"
                className="w-full h-auto"
              />
