@@ -20,6 +20,7 @@ export interface Product {
 }
 
 export interface TranslationStrings {
+  marqueeText: string;
   heroTitle: string;
   heroSubtitle: string;
   exploreBtn: string;

@@ -23,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 bg-[#0A0F1D]/90 backdrop-blur-lg border-b border-white/5 transition-all duration-300">
+      <header className="w-full bg-[#0A0F1D]/90 backdrop-blur-lg border-b border-white/5 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 h-20 md:h-28 flex items-center justify-between">
           
           {/* Desktop Left Nav */}

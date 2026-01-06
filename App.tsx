@@ -9,6 +9,7 @@ import Story from './components/Story';
 import ProductGrid from './components/ProductGrid';
 import Values from './components/Values';
 import Footer from './components/Footer';
+import Marquee from './components/Marquee';
 
 const ProductDetailPage: React.FC<{
   product: Product;
@@ -141,16 +142,19 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen selection:bg-stone-200 bg-[#FDFCF8]">
-      <Header 
-        language={language} 
-        setLanguage={setLanguage} 
-        currency={currency} 
-        setCurrency={setCurrency}
-        t={t}
-        onHomeClick={navigateToHome}
-        onExploreClick={() => { setView('products'); setCategoryFilter(undefined); }}
-        onCategoryClick={navigateToCategory}
-      />
+      <div className="fixed top-0 left-0 w-full z-50">
+        <Marquee text={t.marqueeText} />
+        <Header 
+          language={language} 
+          setLanguage={setLanguage} 
+          currency={currency} 
+          setCurrency={setCurrency}
+          t={t}
+          onHomeClick={navigateToHome}
+          onExploreClick={() => { setView('products'); setCategoryFilter(undefined); }}
+          onCategoryClick={navigateToCategory}
+        />
+      </div>
       
       <main>
         {view === 'home' && (

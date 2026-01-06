@@ -81,6 +81,7 @@ export const PRODUCTS: Product[] = [
 
 export const TRANSLATIONS: Record<Language, TranslationStrings> = {
   EN: {
+    marqueeText: "Complementary International Shipping on Orders Above $500 USD — Supporting 100+ Rural Artisans Across Bangladesh — Each Stitch Tells a Story — Heritage Revitalized — ",
     heroTitle: "Artistry Stitched in Time",
     heroSubtitle: "Welcome to Maya Nokshi Ghor. Discover the timeless craftsmanship of Bangladeshi heritage.",
     exploreBtn: "Explore Collection",
@@ -102,6 +103,7 @@ export const TRANSLATIONS: Record<Language, TranslationStrings> = {
     allProducts: "All Products"
   },
   BN: {
+    marqueeText: "৫০০ ডলারের বেশি অর্ডারে আন্তর্জাতিক শিপিং সম্পূর্ণ বিনামূল্যে — সারা বাংলাদেশে ১০০+ গ্রামীণ কারুশিল্পীদের সহায়তা — প্রতিটি ফোঁড়ে একটি গল্প — ঐতিহ্যের নবজাগরণ — ",
     heroTitle: "মায়ার ভাঁজে ঐতিহ্যের বুনন",
     heroSubtitle: "মায়া নকশী ঘরে আপনাকে স্বাগতম। বাংলার চিরন্তন কারুশিল্পের জাদুকরী ছোঁয়া আবিষ্কার করুন।",
     exploreBtn: "সংগ্রহ দেখুন",
