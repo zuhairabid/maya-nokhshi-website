@@ -65,10 +65,10 @@ const ProductsPage: React.FC<{
   , [categoryFilter]);
 
   return (
-    <div className="pt-8 pb-24 px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-16">
-        <h1 className="text-3xl md:text-4xl font-serif mb-4">{categoryFilter || t.allProducts}</h1>
-        <div className="w-12 h-[1px] bg-[#C5A059] mx-auto"></div>
+    <div className="pt-12 pb-24 px-6 max-w-7xl mx-auto">
+      <div className="text-center mb-20">
+        <h1 className="text-4xl md:text-5xl font-serif mb-6">{categoryFilter || t.allProducts}</h1>
+        <div className="w-16 h-[1.5px] bg-[#C5A059] mx-auto"></div>
       </div>
       <ProductGrid 
         t={t} 
@@ -153,15 +153,15 @@ const App: React.FC = () => {
         />
       </div>
       
-      {/* 97px padding-top as requested */}
       <main className="pt-[97px]">
-        {view === 'home' ? (
+        {view === 'home' && (
           <>
             <Hero t={t} onExplore={() => setView('products')} />
             <Collections 
               t={t} 
               onCategoryClick={navigateToCategory} 
-              activeCategory={categoryFilter} 
+              isHome={true} 
+              activeCategory={categoryFilter}
             />
             <Story t={t} />
             <ProductGrid 
@@ -173,13 +173,15 @@ const App: React.FC = () => {
             />
             <Values t={t} />
           </>
-        ) : (
+        )}
+
+        {view !== 'home' && (
           <>
-            {/* On inner pages, Categories appear immediately below header */}
             <Collections 
               t={t} 
               onCategoryClick={navigateToCategory} 
-              activeCategory={categoryFilter} 
+              isHome={false} 
+              activeCategory={categoryFilter}
             />
             {view === 'products' && (
               <ProductsPage 
