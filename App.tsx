@@ -17,7 +17,7 @@ const ProductDetailPage: React.FC<{
   t: any;
   onBack: () => void;
 }> = ({ product, formatPrice, language, t, onBack }) => (
-  <div className="pt-4 pb-24 px-6 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+  <div className="pt-8 pb-24 px-6 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
     <button onClick={onBack} className="group mb-12 flex items-center space-x-3 text-[10px] uppercase tracking-widest font-bold text-stone-400 hover:text-stone-900 transition-colors">
        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/></svg>
        <span>{t.backToProducts}</span>
@@ -65,10 +65,10 @@ const ProductsPage: React.FC<{
   , [categoryFilter]);
 
   return (
-    <div className="pt-12 pb-24 px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-20">
-        <h1 className="text-4xl md:text-5xl font-serif mb-6">{categoryFilter || t.allProducts}</h1>
-        <div className="w-16 h-[1.5px] bg-[#C5A059] mx-auto"></div>
+    <div className="pt-8 pb-24 px-6 max-w-7xl mx-auto">
+      <div className="text-center mb-16">
+        <h1 className="text-3xl md:text-4xl font-serif mb-4">{categoryFilter || t.allProducts}</h1>
+        <div className="w-12 h-[1px] bg-[#C5A059] mx-auto"></div>
       </div>
       <ProductGrid 
         t={t} 
@@ -153,12 +153,16 @@ const App: React.FC = () => {
         />
       </div>
       
-      {/* Set padding-top exactly to 97px as requested */}
+      {/* 97px padding-top as requested */}
       <main className="pt-[97px]">
-        {view === 'home' && (
+        {view === 'home' ? (
           <>
             <Hero t={t} onExplore={() => setView('products')} />
-            <Collections t={t} onCategoryClick={navigateToCategory} />
+            <Collections 
+              t={t} 
+              onCategoryClick={navigateToCategory} 
+              activeCategory={categoryFilter} 
+            />
             <Story t={t} />
             <ProductGrid 
               t={t} 
@@ -169,26 +173,33 @@ const App: React.FC = () => {
             />
             <Values t={t} />
           </>
-        )}
-
-        {view === 'products' && (
-          <ProductsPage 
-            t={t} 
-            formatPrice={formatPrice} 
-            language={language} 
-            onSelect={navigateToProduct}
-            categoryFilter={categoryFilter}
-          />
-        )}
-
-        {view === 'product-detail' && selectedProduct && (
-          <ProductDetailPage 
-            product={selectedProduct} 
-            formatPrice={formatPrice} 
-            language={language} 
-            t={t}
-            onBack={() => setView('products')}
-          />
+        ) : (
+          <>
+            {/* On inner pages, Categories appear immediately below header */}
+            <Collections 
+              t={t} 
+              onCategoryClick={navigateToCategory} 
+              activeCategory={categoryFilter} 
+            />
+            {view === 'products' && (
+              <ProductsPage 
+                t={t} 
+                formatPrice={formatPrice} 
+                language={language} 
+                onSelect={navigateToProduct}
+                categoryFilter={categoryFilter}
+              />
+            )}
+            {view === 'product-detail' && selectedProduct && (
+              <ProductDetailPage 
+                product={selectedProduct} 
+                formatPrice={formatPrice} 
+                language={language} 
+                t={t}
+                onBack={() => setView('products')}
+              />
+            )}
+          </>
         )}
       </main>
 
