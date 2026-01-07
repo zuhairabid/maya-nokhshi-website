@@ -7,52 +7,32 @@ interface CollectionsProps {
 }
 
 const Collections: React.FC<CollectionsProps> = ({ t, onCategoryClick }) => {
-  const IMG_BASE = "https://raw.githubusercontent.com/zuhairabid/maya-nakhshi-ghor-public-files/refs/heads/main/";
-  
-  const collections = [
-    { title: 'Quilts', bnTitle: 'নকশী কাঁথা', img: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.02%20AM%20%281%29.jpeg` },
-    { title: 'Cushions', bnTitle: 'কুশন', img: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.04%20AM%20%281%29.jpeg` },
-    { title: 'Wall Art', bnTitle: 'ওয়াল আর্ট', img: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.05%20AM.jpeg` },
-    { title: 'Table Decor', bnTitle: 'টেবিল সাজসজ্জা', img: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.06%20AM.jpeg` },
-    { title: 'New Arrivals', bnTitle: 'নতুন কালেকশন', img: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.04%20AM.jpeg` },
-    { title: 'Hand-woven', bnTitle: 'হাতে বোনা', img: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.02%20AM.jpeg` }
+  const categories = [
+    { title: 'Quilts', bnTitle: 'নকশী কাঁথা' },
+    { title: 'Cushions', bnTitle: 'কুশন' },
+    { title: 'Wall Art', bnTitle: 'ওয়াল আর্ট' },
+    { title: 'Table Decor', bnTitle: 'টেবিল সাজসজ্জা' },
+    { title: 'New Arrivals', bnTitle: 'নতুন কালেকশন' },
+    { title: 'Hand-woven', bnTitle: 'হাতে বোনা' },
+    { title: 'Best Sellers', bnTitle: 'সেরা পণ্য' },
+    { title: 'Limited Edition', bnTitle: 'সীমিত সংস্করণ' }
   ];
 
   return (
-    <section className="py-8 md:py-12 bg-white">
+    <section className="py-6 md:py-8 bg-white border-b border-stone-100">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-[10px] uppercase tracking-[0.4em] text-stone-900 font-bold">
-            Categories
-          </h2>
-          <div className="h-[1px] flex-1 mx-6 bg-stone-100 hidden sm:block"></div>
-          <button className="text-[9px] uppercase tracking-widest text-[#C5A059] font-bold hover:opacity-70 transition-opacity">
-            Discover All
-          </button>
-        </div>
-
-        {/* Horizontal Slider Container */}
-        <div className="flex overflow-x-auto space-x-5 md:space-x-10 pb-4 no-scrollbar snap-x scroll-smooth">
-          {collections.map((col, idx) => (
-            <div 
+        <div className="flex overflow-x-auto space-x-6 md:space-x-10 no-scrollbar snap-x scroll-smooth items-center">
+          {categories.map((cat, idx) => (
+            <button 
               key={idx} 
-              onClick={() => onCategoryClick(col.title)}
-              className="flex-shrink-0 flex flex-col items-center group cursor-pointer snap-start"
+              onClick={() => onCategoryClick(cat.title)}
+              className="flex-shrink-0 group py-2 relative snap-start"
             >
-              <div className="relative w-16 h-16 md:w-24 md:h-24 mb-3">
-                {/* Circle Container */}
-                <div className="w-full h-full rounded-full overflow-hidden border border-stone-100 group-hover:border-[#C5A059] transition-all duration-500 transform group-hover:scale-105">
-                  <img 
-                    src={col.img} 
-                    alt={col.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                </div>
-              </div>
-              <span className="text-[9px] uppercase tracking-[0.15em] font-bold text-stone-400 group-hover:text-stone-900 transition-colors">
-                {col.title}
+              <span className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-bold text-stone-400 group-hover:text-stone-900 transition-colors whitespace-nowrap">
+                {cat.title}
               </span>
-            </div>
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1.5px] bg-[#C5A059] group-hover:w-full transition-all duration-300"></div>
+            </button>
           ))}
         </div>
       </div>

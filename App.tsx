@@ -88,7 +88,6 @@ const App: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string | undefined>(undefined);
 
-  // Auto-detect location for Language and Currency
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -154,12 +153,8 @@ const App: React.FC = () => {
         />
       </div>
       
-      {/* 
-          Calculated Padding:
-          Mobile: Marquee (py-2.5 = 20px + text ~14px) + Header (py-3 = 24px + logo 36px) = ~94px
-          Desktop: Marquee (34px) + Header (h-24 = 96px) = ~130px
-      */}
-      <main className="pt-[94px] lg:pt-[130px]">
+      {/* Set padding-top exactly to 97px as requested */}
+      <main className="pt-[97px]">
         {view === 'home' && (
           <>
             <Hero t={t} onExplore={() => setView('products')} />
