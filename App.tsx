@@ -18,7 +18,7 @@ const ProductDetailPage: React.FC<{
   t: any;
   onBack: () => void;
 }> = ({ product, formatPrice, language, t, onBack }) => (
-  <div className="pt-32 pb-24 px-6 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+  <div className="pt-4 pb-24 px-6 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
     <button onClick={onBack} className="group mb-12 flex items-center space-x-3 text-[10px] uppercase tracking-widest font-bold text-stone-400 hover:text-stone-900 transition-colors">
        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/></svg>
        <span>{t.backToProducts}</span>
@@ -66,7 +66,7 @@ const ProductsPage: React.FC<{
   , [categoryFilter]);
 
   return (
-    <div className="pt-40 pb-24 px-6 max-w-7xl mx-auto">
+    <div className="pt-12 pb-24 px-6 max-w-7xl mx-auto">
       <div className="text-center mb-20">
         <h1 className="text-4xl md:text-5xl font-serif mb-6">{categoryFilter || t.allProducts}</h1>
         <div className="w-16 h-[1.5px] bg-[#C5A059] mx-auto"></div>
@@ -94,7 +94,6 @@ const App: React.FC = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
-        // Rough bounding box for Bangladesh (Latitude: 20-26, Longitude: 88-92)
         if (latitude >= 20 && latitude <= 26 && longitude >= 88 && longitude <= 93) {
           setLanguage('BN');
           setCurrency('BDT');
@@ -156,7 +155,8 @@ const App: React.FC = () => {
         />
       </div>
       
-      <main>
+      {/* Main content starts below the fixed header/marquee area */}
+      <main className="pt-[110px] lg:pt-[136px]">
         {view === 'home' && (
           <>
             <Hero t={t} onExplore={() => setView('products')} />

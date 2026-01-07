@@ -20,7 +20,6 @@ const Header: React.FC<HeaderProps> = ({
   const [activeDropdown, setActiveDropdown] = useState<'loc' | 'curr' | 'mobLoc' | 'mobCurr' | null>(null);
   
   const desktopDropdownRef = useRef<HTMLDivElement>(null);
-  const mobileDrawerRef = useRef<HTMLDivElement>(null);
   const LOGO_URL = "https://raw.githubusercontent.com/zuhairabid/maya-nakhshi-ghor-public-files/refs/heads/main/image.png";
 
   useEffect(() => {
@@ -96,8 +95,8 @@ const Header: React.FC<HeaderProps> = ({
           {/* --- MOBILE HEADER --- */}
           <div className="lg:hidden flex flex-col w-full py-3">
             <div className="flex items-center justify-between gap-2">
-              {/* Left: Hamburger & Logo */}
-              <div className="flex items-center space-x-2">
+              {/* Left: Hamburger & Logo next to it */}
+              <div className="flex items-center space-x-3">
                 <button onClick={() => setIsMenuOpen(true)} className="p-1 text-stone-300">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 8h16M4 16h16" /></svg>
                 </button>
@@ -106,8 +105,8 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               </div>
 
-              {/* Right: Search, Account, Wishlist, Cart */}
-              <div className="flex items-center space-x-0.5 sm:space-x-1">
+              {/* Right: Icons in specific order (Search, Account, Wishlist, Cart) */}
+              <div className="flex items-center space-x-0.5">
                 {/* 1. Search Toggle */}
                 <button onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)} className={`p-1.5 transition-colors ${isMobileSearchOpen ? 'text-[#C5A059]' : 'text-stone-400'}`}>
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
@@ -131,7 +130,7 @@ const Header: React.FC<HeaderProps> = ({
               </div>
             </div>
 
-            {/* Mobile Row 2: Search Box (appears below header) */}
+            {/* Mobile Row 2: Search Box appearing below header when search icon is clicked */}
             <div className={`overflow-hidden transition-all duration-300 ${isMobileSearchOpen ? 'max-h-20 mt-3 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}>
               <div className="relative">
                 <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-stone-500">
@@ -163,7 +162,7 @@ const Header: React.FC<HeaderProps> = ({
 
             <hr className="border-white/5" />
 
-            {/* Location and Currency back in drawer */}
+            {/* Location and Currency selectors in navigation bar (drawer) */}
             <div className="space-y-10">
               <div className="space-y-4">
                 <span className="text-[10px] uppercase tracking-[0.3em] text-stone-600 font-bold">Region</span>
