@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Language, Currency, View, Product } from './types';
 import { TRANSLATIONS, PRODUCTS, EXCHANGE_RATE } from './constants';
@@ -155,8 +154,12 @@ const App: React.FC = () => {
         />
       </div>
       
-      {/* Main content starts below the fixed header/marquee area */}
-      <main className="pt-[110px] lg:pt-[136px]">
+      {/* 
+          Calculated Padding:
+          Mobile: Marquee (py-2.5 = 20px + text ~14px) + Header (py-3 = 24px + logo 36px) = ~94px
+          Desktop: Marquee (34px) + Header (h-24 = 96px) = ~130px
+      */}
+      <main className="pt-[94px] lg:pt-[130px]">
         {view === 'home' && (
           <>
             <Hero t={t} onExplore={() => setView('products')} />
