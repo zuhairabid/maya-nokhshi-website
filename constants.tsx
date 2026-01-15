@@ -4,80 +4,79 @@ import { Product, Language, TranslationStrings } from './types';
 export const EXCHANGE_RATE = 120; // 1 USD = 120 BDT
 
 const IMG_BASE = "https://raw.githubusercontent.com/zuhairabid/maya-nakhshi-ghor-public-files/refs/heads/main/";
-
-export const PRODUCTS: Product[] = [
-  {
-    id: '1',
-    name: { EN: 'Royal Bloom Nokshi Katha', BN: 'রাজকীয় ফুল নকশী কাঁথা' },
-    description: { 
-      EN: 'A masterpiece of hand-embroidery featuring intricate floral motifs that symbolize growth and prosperity.',
-      BN: 'জটিল ফুলের মোটিফ সম্বলিত হাতে বোনা একটি অনবদ্য সৃষ্টি যা সমৃদ্ধির প্রতীক।'
-    },
-    price: 420,
-    category: 'Quilts',
-    image: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.02%20AM%20%281%29.jpeg`,
-    details: ['100% Cotton', 'Hand-stitched', 'Vintage style']
-  },
-  {
-    id: '2',
-    name: { EN: 'Emerald Heritage Quilt', BN: 'মরকত হেরিটেজ কাঁথা' },
-    description: { 
-      EN: 'Deep emerald threads woven into geometric patterns inspired by ancient terracotta art.',
-      BN: 'প্রাচীন টেরাকোটা শিল্প দ্বারা অনুপ্রাণিত জ্যামিতিক নকশায় বোনা গভীর পান্না রঙের সুতো।'
-    },
-    price: 380,
-    category: 'Quilts',
-    image: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.02%20AM.jpeg`
-  },
-  {
-    id: '3',
-    name: { EN: 'Sunlit Mandala Runner', BN: 'সূর্যালোক ম্যান্ডালা রানার' },
-    description: { EN: 'Brighten your dining experience with the warmth of hand-stitched sun rays.', BN: 'হাতে বোনা সূর্যরশ্মির উষ্ণতায় আপনার ডাইনিং অভিজ্ঞতাকে উজ্জ্বল করুন।' },
-    price: 85,
-    category: 'Table Decor',
-    image: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.03%20AM.jpeg`
-  },
-  {
-    id: '4',
-    name: { EN: 'Indigo Dreams Cushion', BN: 'নীল স্বপ্নের কুশন' },
-    description: { EN: 'Soft indigo hues and fine needlework create a serene addition to any living space.', BN: 'নরম নীল আভা এবং সূক্ষ্ম সুই-সুতার কাজ যেকোনো বসার ঘরে একটি নির্মল পরিবেশ তৈরি করে।' },
-    price: 55,
-    category: 'Cushions',
-    image: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.04%20AM%20%281%29.jpeg`
-  },
-  {
-    id: '5',
-    name: { EN: 'Golden Harvest Katha', BN: 'সোনালী ফসল কাঁথা' },
-    description: { EN: 'Celebrating the rural landscape of Bengal with golden silk embroidery.', BN: 'সোনালী সিল্কের এমব্রয়ডারির মাধ্যমে বাংলার গ্রাম্য ল্যান্ডস্কেপ উদযাপন।' },
-    price: 450,
-    category: 'Quilts',
-    image: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.04%20AM.jpeg`
-  },
-  {
-    id: '6',
-    name: { EN: 'Azure Lattice Wall Art', BN: 'নীল জাফরি দেয়াল চিত্র' },
-    description: { EN: 'A unique wall hanging featuring traditional lattice patterns in deep azure.', BN: 'গভীর নীল রঙে ঐতিহ্যবাহী জাফরি নকশা সম্বলিত একটি অনন্য দেয়াল সজ্জা।' },
-    price: 130,
-    category: 'Wall Art',
-    image: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.05%20AM.jpeg`
-  },
-  {
-    id: '7',
-    name: { EN: 'Crimson Petal Cushion', BN: 'রক্তিম পাপড়ি কুশন' },
-    description: { EN: 'Bold crimson accents meeting delicate hand-stitched borders.', BN: 'সাহসী লাল রঙের ছোঁয়ায় সূক্ষ্ম হাতে সেলাই করা বর্ডার।' },
-    price: 60,
-    category: 'Cushions',
-    image: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.06%20AM%20%281%29.jpeg`
-  },
-  {
-    id: '8',
-    name: { EN: 'Sienna Soul Table Runner', BN: 'সিয়েনা সোল টেবিল রানার' },
-    description: { EN: 'Earthy sienna tones for a sophisticated, natural home aesthetic.', BN: 'একটি পরিশীলিত এবং স্বাভাবিক গৃহসজ্জার জন্য মাটির সিয়েনা টোন।' },
-    price: 75,
-    category: 'Table Decor',
-    image: `${IMG_BASE}WhatsApp%20Image%202025-12-31%20at%209.45.06%20AM.jpeg`
-  }
+// Fallback high-quality unsplash images for variety
+const FALLBACK_IMGS = [
+  "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1072",
+  "https://images.unsplash.com/photo-1583847268964-b28dc2f51ac9?q=80&w=1074",
+  "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=1170",
+  "https://images.unsplash.com/photo-1606744881024-52e8019a114d?q=80&w=1032",
+  "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1100"
 ];
+
+const generateProducts = () => {
+  const products: Product[] = [];
+  const categories = ['Quilts', 'Cushions', 'Wall Art', 'Table Decor'];
+  
+  const baseNames = {
+    'Quilts': { EN: 'Heritage Katha', BN: 'ঐতিহ্যবাহী কাঁথা' },
+    'Cushions': { EN: 'Artisan Pillow', BN: 'কারুশিল্প কুশন' },
+    'Wall Art': { EN: 'Nokshi Frame', BN: 'নকশী ফ্রেম' },
+    'Table Decor': { EN: 'Woven Runner', BN: 'বোনা রানার' }
+  };
+
+  const adjectives = [
+    { EN: 'Royal', BN: 'রাজকীয়' }, { EN: 'Ancient', BN: 'প্রাচীন' }, 
+    { EN: 'Indigo', BN: 'নীল' }, { EN: 'Golden', BN: 'সোনালী' },
+    { EN: 'Crimson', BN: 'লাল' }, { EN: 'Emerald', BN: 'পান্না' },
+    { EN: 'Midnight', BN: 'নিশীথ' }, { EN: 'Saffron', BN: 'জাফরান' },
+    { EN: 'Earthy', BN: 'মাটির' }, { EN: 'Floral', BN: 'ফুলের' },
+    { EN: 'Geometric', BN: 'জ্যামিতিক' }, { EN: 'Silk', BN: 'রেশমী' },
+    { EN: 'Lush', BN: 'সবুজ' }, { EN: 'Ivory', BN: 'হাতির দাঁত' },
+    { EN: 'Mystic', BN: 'রহস্যময়' }, { EN: 'Vintage', BN: 'পুরানো' },
+    { EN: 'Azure', BN: 'আসমানী' }, { EN: 'Terra', BN: 'টেরা' },
+    { EN: 'Majestic', BN: 'মহিমান্বিত' }, { EN: 'Serene', BN: 'শান্ত' }
+  ];
+
+  categories.forEach((cat) => {
+    for (let i = 1; i <= 20; i++) {
+      const adj = adjectives[i - 1];
+      const base = baseNames[cat as keyof typeof baseNames];
+      const id = `${cat.toLowerCase().replace(' ', '-')}-${i}`;
+      
+      // Prices vary by category
+      let price = 45;
+      if (cat === 'Quilts') price = 300 + (i * 10);
+      else if (cat === 'Wall Art') price = 120 + (i * 5);
+      else if (cat === 'Table Decor') price = 60 + (i * 3);
+      else price = 40 + (i * 2);
+
+      // Mix repository images with unsplash for 20 per category
+      const imgIdx = (i - 1) % 8 + 1;
+      const useRepoImg = i <= 8;
+      const repoImgName = `WhatsApp%20Image%202025-12-31%20at%209.45.0${imgIdx}%20AM.jpeg`;
+      
+      products.push({
+        id,
+        name: { 
+          EN: `${adj.EN} ${base.EN}`, 
+          BN: `${adj.BN} ${base.BN}` 
+        },
+        description: { 
+          EN: `A stunning ${adj.EN.toLowerCase()} piece of ${cat.toLowerCase()} handcrafted by rural artisans in Bengal.`,
+          BN: `বাংলার গ্রামীণ কারুশিল্পীদের হাতে তৈরি একটি চমৎকার ${adj.BN} ${base.BN}।`
+        },
+        price,
+        category: cat,
+        image: useRepoImg ? `${IMG_BASE}${repoImgName}` : FALLBACK_IMGS[i % FALLBACK_IMGS.length],
+        details: ['Hand-stitched', 'Sustainable Materials', 'Certified Authentic']
+      });
+    }
+  });
+
+  return products;
+};
+
+export const PRODUCTS: Product[] = generateProducts();
 
 export const TRANSLATIONS: Record<Language, TranslationStrings> = {
   EN: {
