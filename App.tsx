@@ -72,7 +72,6 @@ const ProductsPage: React.FC<{
     } else if (sortBy === 'Price: High to Low') {
       return [...list].sort((a, b) => b.price - a.price);
     }
-    // Default or Newest (assuming ID reflects order)
     return list;
   }, [categoryFilter, sortBy]);
 
@@ -141,7 +140,6 @@ const App: React.FC = () => {
   };
 
   const navigateToCategory = (cat: string) => {
-    // If it's the "All Products" translated string, reset filter
     if (cat === t.allProducts) {
       setCategoryFilter(undefined);
     } else {
@@ -183,15 +181,14 @@ const App: React.FC = () => {
               isHome={true} 
               activeCategory={categoryFilter}
             />
-            <Story t={t} />
+            {/* Home page now only shows the product grid between collection menu and footer */}
             <ProductGrid 
               t={t} 
-              products={PRODUCTS.slice(0, 4)} 
+              products={PRODUCTS.slice(0, 16)} 
               formatPrice={formatPrice} 
               language={language}
               onProductClick={navigateToProduct}
             />
-            <Values t={t} />
           </>
         )}
 
