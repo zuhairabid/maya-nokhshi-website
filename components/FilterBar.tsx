@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 
 interface FilterBarProps {
@@ -46,7 +47,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onSortChange }) => {
   };
 
   return (
-    <div className="w-full bg-transparent py-6 border-b border-stone-100 mb-8" ref={containerRef}>
+    <div className="w-full bg-transparent py-2 border-b border-stone-100 mb-4" ref={containerRef}>
       {/* --- DESKTOP VIEW --- */}
       <div className="hidden md:flex items-center justify-between">
         <div className="flex items-center space-x-3">

@@ -23,7 +23,7 @@ const Collections: React.FC<CollectionsProps> = ({ t, onCategoryClick, isHome = 
   ];
 
   return (
-    <section className={`bg-white border-b border-stone-100 transition-all duration-300 sticky top-[97px] z-40 ${isHome ? 'py-4 md:py-6' : 'py-2 md:py-2.5 shadow-sm'}`}>
+    <section className={`bg-white border-b border-stone-100 transition-all duration-300 sticky top-[97px] z-40 ${isHome ? 'py-3 md:py-4' : 'py-1.5 md:py-2 shadow-sm'}`}>
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex overflow-x-auto space-x-3 md:space-x-4 no-scrollbar snap-x scroll-smooth items-center">
           {categories.map((cat, idx) => {

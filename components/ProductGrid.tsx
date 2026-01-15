@@ -130,7 +130,7 @@ interface ProductGridProps {
 
 const ProductGrid: React.FC<ProductGridProps> = ({ t, products, formatPrice, language, onProductClick }) => {
   return (
-    <section className="py-12 md:py-20 px-4 md:px-6 max-w-7xl mx-auto">
+    <section className="py-6 md:py-10 px-4 md:px-6 max-w-7xl mx-auto">
       {/* "Curated Masterpieces" Header removed as requested */}
       
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-x-8 md:gap-y-16">

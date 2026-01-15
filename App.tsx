@@ -112,9 +112,9 @@ const ProductsPage: React.FC<{
   }, [categoryFilter, sortBy]);
 
   return (
-    <div className="pt-12 pb-24 px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-serif mb-6">{categoryFilter || t.allProducts}</h1>
+    <div className="pt-6 pb-24 px-6 max-w-7xl mx-auto">
+      <div className="text-center mb-4">
+        <h1 className="text-4xl md:text-5xl font-serif mb-4">{categoryFilter || t.allProducts}</h1>
         <div className="w-16 h-[1.5px] bg-[#C5A059] mx-auto"></div>
       </div>
 
