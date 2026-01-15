@@ -1,18 +1,8 @@
-
 import { Product, Language, TranslationStrings } from './types';
 
 export const EXCHANGE_RATE = 120; // 1 USD = 120 BDT
 
-const IMG_BASE = "https://raw.githubusercontent.com/zuhairabid/maya-nakhshi-ghor-public-files/refs/heads/main/";
-// Fallback high-quality unsplash images for variety
-const FALLBACK_IMGS = [
-  "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1072",
-  "https://images.unsplash.com/photo-1583847268964-b28dc2f51ac9?q=80&w=1074",
-  "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=1170",
-  "https://images.unsplash.com/photo-1606744881024-52e8019a114d?q=80&w=1032",
-  "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1100"
-];
-
+// Helper function to generate dummy product data
 const generateProducts = () => {
   const products: Product[] = [];
   const categories = ['Quilts', 'Cushions', 'Wall Art', 'Table Decor'];
@@ -43,84 +33,91 @@ const generateProducts = () => {
       const base = baseNames[cat as keyof typeof baseNames];
       const id = `${cat.toLowerCase().replace(' ', '-')}-${i}`;
       
-      // Prices vary by category
       let price = 45;
       if (cat === 'Quilts') price = 300 + (i * 10);
       else if (cat === 'Wall Art') price = 120 + (i * 5);
       else if (cat === 'Table Decor') price = 60 + (i * 3);
       else price = 40 + (i * 2);
 
-      // Mix repository images with unsplash for 20 per category
-      const imgIdx = (i - 1) % 8 + 1;
-      const useRepoImg = i <= 8;
-      const repoImgName = `WhatsApp%20Image%202025-12-31%20at%209.45.0${imgIdx}%20AM.jpeg`;
-      
+      const featuredImage = `https://picsum.photos/seed/${id}/418/522`;
+      const galleryImages = [
+        featuredImage,
+        `https://picsum.photos/seed/${id}-2/418/522`
+      ];
+
       products.push({
         id,
-        name: { 
-          EN: `${adj.EN} ${base.EN}`, 
-          BN: `${adj.BN} ${base.BN}` 
+        name: {
+          EN: `${adj.EN} ${base.EN}`,
+          BN: `${adj.BN} ${base.BN}`
         },
-        description: { 
-          EN: `A stunning ${adj.EN.toLowerCase()} piece of ${cat.toLowerCase()} handcrafted by rural artisans in Bengal.`,
-          BN: `বাংলার গ্রামীণ কারুশিল্পীদের হাতে তৈরি একটি চমৎকার ${adj.BN} ${base.BN}।`
+        description: {
+          EN: `Handcrafted ${cat.toLowerCase()} featuring traditional ${adj.EN.toLowerCase()} patterns from rural Bengal. Made with high-quality sustainable materials.`,
+          BN: `গ্রামীণ বাংলার ঐতিহ্যবাহী ${adj.BN.toLowerCase()} নকশায় তৈরি হাতে বোনা ${cat.toLowerCase()}। এটি উচ্চমানের পরিবেশবান্ধব উপাদানে তৈরি।`
         },
         price,
         category: cat,
-        image: useRepoImg ? `${IMG_BASE}${repoImgName}` : FALLBACK_IMGS[i % FALLBACK_IMGS.length],
-        details: ['Hand-stitched', 'Sustainable Materials', 'Certified Authentic']
+        image: featuredImage,
+        images: galleryImages,
+        details: [
+          '100% Organic Cotton',
+          'Traditional Nokshi Stitched',
+          'Artisan Signature Work',
+          'Eco-friendly dyes'
+        ]
       });
     }
   });
-
   return products;
 };
 
-export const PRODUCTS: Product[] = generateProducts();
+// Exporting PRODUCTS to be used in App.tsx
+export const PRODUCTS = generateProducts();
 
+// Translation data for multi-language support
 export const TRANSLATIONS: Record<Language, TranslationStrings> = {
   EN: {
-    marqueeText: "Complementary International Shipping on Orders Above $500 USD — Supporting 100+ Rural Artisans Across Bangladesh — Each Stitch Tells a Story — Heritage Revitalized — ",
-    heroTitle: "Artistry Stitched in Time",
-    heroSubtitle: "Welcome to Maya Nokshi Ghor. Discover the timeless craftsmanship of Bangladeshi heritage.",
-    exploreBtn: "Explore Collection",
-    collectionsTitle: "The Collections",
-    featuredTitle: "Curated Masterpieces",
-    storyTitle: "Our Craftsmanship Legacy",
-    storyText: "At Maya Nokshi Ghor, we believe every piece is a canvas. Rooted in the heart of Bengal, our artisans hand-stitch stories of life onto premium fabrics.",
-    about: "Our Story",
-    contact: "Contact",
-    careGuide: "Care Guide",
-    footerTagline: "Hand-stitched heritage for the modern connoisseur.",
-    handcrafted: "100% Hand-Stitched",
-    sustainable: "Ethical & Eco-Friendly",
-    artisanSupport: "Empowering Local Artisans",
-    languageLabel: "Language",
-    currencyLabel: "Currency",
-    addToCart: "Add to Bag",
-    backToProducts: "Back to Gallery",
-    allProducts: "All Products"
+    marqueeText: 'Free Worldwide Shipping on orders over $200 • Traditional Nokshi Art • Sustaining Rural Artisans',
+    heroTitle: 'Heritage in Every Stitch',
+    heroSubtitle: 'Discover the soul of Bengal through our curated collection of hand-stitched Nokshi Katha and artisanal home decor.',
+    exploreBtn: 'Explore Collections',
+    collectionsTitle: 'Curated Categories',
+    featuredTitle: 'Featured Treasures',
+    storyTitle: 'Our Heritage',
+    storyText: 'Maya Nokshi Ghor is a tribute to the resilient spirit of rural Bengali women, transforming age-old traditions into modern heirlooms.',
+    about: 'Our Story',
+    contact: 'Contact Us',
+    careGuide: 'Product Care',
+    footerTagline: 'Weaving stories of tradition, sustainability, and artisan empowerment into every piece of home decor.',
+    handcrafted: 'Artisan Crafted',
+    sustainable: 'Eco Conscious',
+    artisanSupport: 'Fair Trade',
+    languageLabel: 'Language',
+    currencyLabel: 'Currency',
+    addToCart: 'Add to Collection',
+    backToProducts: 'Back to Shop',
+    allProducts: 'All Products'
   },
   BN: {
-    marqueeText: "৫০০ ডলারের বেশি অর্ডারে আন্তর্জাতিক শিপিং সম্পূর্ণ বিনামূল্যে — সারা বাংলাদেশে ১০০+ গ্রামীণ কারুশিল্পীদের সহায়তা — প্রতিটি ফোঁড়ে একটি গল্প — ঐতিহ্যের নবজাগরণ — ",
-    heroTitle: "মায়ার ভাঁজে ঐতিহ্যের বুনন",
-    heroSubtitle: "মায়া নকশী ঘরে আপনাকে স্বাগতম। বাংলার চিরন্তন কারুশিল্পের জাদুকরী ছোঁয়া আবিষ্কার করুন।",
-    exploreBtn: "সংগ্রহ দেখুন",
-    collectionsTitle: "আমাদের সম্ভার",
-    featuredTitle: "নির্বাচিত শিল্পকর্ম",
-    storyTitle: "আমাদের কারুশিল্পের ঐতিহ্য",
-    storyText: "মায়া নকশী ঘরে আমরা বিশ্বাস করি প্রতিটি শিল্পকর্ম একটি জীবন্ত ক্যানভাস। বাংলার হৃদয়ে শেকড় গেড়ে আমাদের কারুশিল্পীরা জীবনের গল্প বুনে চলেন সাধারণ কাপড়ে।",
-    about: "পরিচিতি",
-    contact: "যোগাযোগ",
-    careGuide: "যত্ন বিধি",
-    footerTagline: "আধুনিক রুচিতে ঐতিহ্যের ছোঁয়া।",
-    handcrafted: "১০০% হাতে তৈরি",
-    sustainable: "নৈতিক ও পরিবেশবান্ধব",
-    artisanSupport: "স্থানীয় শিল্পীদের ক্ষমতায়ন",
-    languageLabel: "ভাষা",
-    currencyLabel: "মুদ্রা",
-    addToCart: "ব্যাগে যোগ করুন",
-    backToProducts: "গ্যালারিতে ফিরে যান",
-    allProducts: "সকল পণ্য"
+    marqueeText: '$২০০ এর বেশি অর্ডারে বিনামূল্যে বিশ্বব্যাপী শিপিং • ঐতিহ্যবাহী নকশী শিল্প • গ্রামীণ কারুশিল্পীদের সহায়তা',
+    heroTitle: 'প্রতিটি সেলাইয়ে ঐতিহ্য',
+    heroSubtitle: 'আমাদের নকশী কাঁথা এবং হস্তশিল্পের সংগ্রহের মাধ্যমে বাংলার প্রাণের সন্ধান করুন।',
+    exploreBtn: 'সংগ্রহ দেখুন',
+    collectionsTitle: 'বিভাগসমূহ',
+    featuredTitle: 'নির্বাচিত পণ্য',
+    storyTitle: 'আমাদের ঐতিহ্য',
+    storyText: 'মায়া নকশী ঘর গ্রামীণ বাঙালি নারীদের সহনশীলতার প্রতি শ্রদ্ধাঞ্জলি, যা পুরানো ঐতিহ্যকে আধুনিক উত্তরাধিকার হিসেবে রূপান্তরিত করে।',
+    about: 'আমাদের কথা',
+    contact: 'যোগাযোগ করুন',
+    careGuide: 'যত্ন নির্দেশিকা',
+    footerTagline: 'প্রতিটি গৃহসজ্জার পণ্যে ঐতিহ্য, স্থায়িত্ব এবং কারুশিল্পীদের ক্ষমতায়নের গল্প বোনা।',
+    handcrafted: 'হাতে তৈরি',
+    sustainable: 'পরিবেশবান্ধব',
+    artisanSupport: 'ন্যায্য বাণিজ্য',
+    languageLabel: 'ভাষা',
+    currencyLabel: 'মুদ্রা',
+    addToCart: 'ব্যাগ-এ যুক্ত করুন',
+    backToProducts: 'দোকানে ফিরে যান',
+    allProducts: 'সব পণ্য'
   }
 };

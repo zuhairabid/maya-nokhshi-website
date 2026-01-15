@@ -15,7 +15,8 @@ export interface Product {
   };
   price: number; // Base price in USD
   category: string;
-  image: string;
+  image: string; // Featured image
+  images: string[]; // Gallery images
   details?: string[];
 }
 
