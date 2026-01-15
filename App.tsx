@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Language, Currency, View, Product } from './types';
 import { TRANSLATIONS, PRODUCTS, EXCHANGE_RATE } from './constants';
@@ -140,7 +141,12 @@ const App: React.FC = () => {
   };
 
   const navigateToCategory = (cat: string) => {
-    setCategoryFilter(cat);
+    // If it's the "All Products" translated string, reset filter
+    if (cat === t.allProducts) {
+      setCategoryFilter(undefined);
+    } else {
+      setCategoryFilter(cat);
+    }
     setView('products');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

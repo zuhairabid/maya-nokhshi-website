@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { TranslationStrings } from '../types';
 
@@ -10,6 +11,7 @@ interface CollectionsProps {
 
 const Collections: React.FC<CollectionsProps> = ({ t, onCategoryClick, isHome = true, activeCategory }) => {
   const categories = [
+    { title: t.allProducts, isAll: true },
     { title: 'Quilts', bnTitle: 'নকশী কাঁথা' },
     { title: 'Cushions', bnTitle: 'কুশন' },
     { title: 'Wall Art', bnTitle: 'ওয়াল আর্ট' },
@@ -25,7 +27,7 @@ const Collections: React.FC<CollectionsProps> = ({ t, onCategoryClick, isHome = 
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex overflow-x-auto space-x-3 md:space-x-4 no-scrollbar snap-x scroll-smooth items-center">
           {categories.map((cat, idx) => {
-            const isActive = activeCategory === cat.title;
+            const isActive = activeCategory === cat.title || (cat.isAll && !activeCategory);
             return (
               <button 
                 key={idx} 
