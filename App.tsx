@@ -1,24 +1,29 @@
 
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, memo } from 'react';
 import { Language, Currency, View, Product } from './types';
 import { TRANSLATIONS, PRODUCTS, EXCHANGE_RATE } from './constants';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Collections from './components/Collections';
-import Story from './components/Story';
 import ProductGrid from './components/ProductGrid';
-import Values from './components/Values';
 import Footer from './components/Footer';
 import Marquee from './components/Marquee';
 import FilterBar from './components/FilterBar';
 
-const ProductDetailPage: React.FC<{
+// Moved outside App to prevent re-creation and unmounting on every render
+const ProductDetailPage = memo(({
+  product,
+  formatPrice,
+  language,
+  t,
+  onBack
+}: {
   product: Product;
   formatPrice: (p: number) => string;
   language: Language;
   t: any;
   onBack: () => void;
-}> = ({ product, formatPrice, language, t, onBack }) => {
+}) => {
   const [activeImg, setActiveImg] = useState(0);
 
   return (
@@ -29,7 +34,6 @@ const ProductDetailPage: React.FC<{
       </button>
       
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-        {/* Gallery Sidebar / Main Image */}
         <div className="lg:col-span-7 flex flex-col md:flex-row-reverse gap-4">
           <div className="flex-1 aspect-[4/5] bg-stone-100 overflow-hidden shadow-2xl rounded-sm">
             <img src={product.images[activeImg]} alt={product.name[language]} className="w-full h-full object-cover" />
@@ -49,7 +53,6 @@ const ProductDetailPage: React.FC<{
           )}
         </div>
 
-        {/* Product Info */}
         <div className="lg:col-span-5 space-y-10">
           <div>
             <p className="text-[10px] uppercase tracking-[0.4em] text-[#C5A059] font-bold mb-4">{product.category}</p>
@@ -89,25 +92,28 @@ const ProductDetailPage: React.FC<{
       </div>
     </div>
   );
-};
+});
 
-const ProductsPage: React.FC<{
+// Moved outside App to prevent re-creation
+const ProductsPage = memo(({
+  t,
+  formatPrice,
+  language,
+  onSelect,
+  categoryFilter
+}: {
   t: any;
   formatPrice: (p: number) => string;
   language: Language;
   onSelect: (p: Product) => void;
   categoryFilter?: string;
-}> = ({ t, formatPrice, language, onSelect, categoryFilter }) => {
+}) => {
   const [sortBy, setSortBy] = useState('Newest');
 
   const processedProducts = useMemo(() => {
     let list = categoryFilter ? PRODUCTS.filter(p => p.category === categoryFilter) : PRODUCTS;
-    
-    if (sortBy === 'Price: Low to High') {
-      return [...list].sort((a, b) => a.price - b.price);
-    } else if (sortBy === 'Price: High to Low') {
-      return [...list].sort((a, b) => b.price - a.price);
-    }
+    if (sortBy === 'Price: Low to High') return [...list].sort((a, b) => a.price - b.price);
+    if (sortBy === 'Price: High to Low') return [...list].sort((a, b) => b.price - a.price);
     return list;
   }, [categoryFilter, sortBy]);
 
@@ -117,9 +123,7 @@ const ProductsPage: React.FC<{
         <h1 className="text-4xl md:text-5xl font-serif mb-4">{categoryFilter || t.allProducts}</h1>
         <div className="w-16 h-[1.5px] bg-[#C5A059] mx-auto"></div>
       </div>
-
       <FilterBar onSortChange={setSortBy} />
-
       <ProductGrid 
         t={t} 
         products={processedProducts} 
@@ -129,7 +133,7 @@ const ProductsPage: React.FC<{
       />
     </div>
   );
-};
+});
 
 const App: React.FC = () => {
   const [language, setLanguage] = useState<Language>('EN');
@@ -146,118 +150,88 @@ const App: React.FC = () => {
           setLanguage('BN');
           setCurrency('BDT');
         }
-      }, (error) => {
-        console.log("Geolocation blocked or failed. Defaulting to EN/USD.");
       });
     }
   }, []);
 
-  const t = TRANSLATIONS[language];
+  const t = useMemo(() => TRANSLATIONS[language], [language]);
 
   const formatPrice = useCallback((usdPrice: number) => {
     if (currency === 'BDT') {
       const bdtPrice = usdPrice * EXCHANGE_RATE;
-      return new Intl.NumberFormat('bn-BD', {
-        style: 'currency',
-        currency: 'BDT',
-        minimumFractionDigits: 0
-      }).format(bdtPrice);
+      return new Intl.NumberFormat('bn-BD', { style: 'currency', currency: 'BDT', minimumFractionDigits: 0 }).format(bdtPrice);
     }
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(usdPrice);
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(usdPrice);
   }, [currency]);
 
-  const navigateToProduct = (product: Product) => {
+  const navigateToProduct = useCallback((product: Product) => {
     setSelectedProduct(product);
     setView('product-detail');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, []);
 
-  const navigateToCategory = (cat: string) => {
-    if (cat === t.allProducts) {
-      setCategoryFilter(undefined);
-    } else {
-      setCategoryFilter(cat);
-    }
+  const navigateToCategory = useCallback((cat: string) => {
+    setCategoryFilter(cat === t.allProducts ? undefined : cat);
     setView('products');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, [t.allProducts]);
 
-  const navigateToHome = () => {
+  const navigateToHome = useCallback(() => {
     setView('home');
     setCategoryFilter(undefined);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, []);
 
   return (
     <div className="min-h-screen selection:bg-stone-200 bg-[#FDFCF8]">
       <div className="fixed top-0 left-0 w-full z-50">
         <Marquee text={t.marqueeText} />
         <Header 
-          language={language} 
-          setLanguage={setLanguage} 
-          currency={currency} 
-          setCurrency={setCurrency}
-          t={t}
-          onHomeClick={navigateToHome}
-          onExploreClick={() => { setView('products'); setCategoryFilter(undefined); }}
+          language={language} setLanguage={setLanguage} 
+          currency={currency} setCurrency={setCurrency}
+          t={t} onHomeClick={navigateToHome}
+          onExploreClick={() => navigateToCategory(t.allProducts)}
           onCategoryClick={navigateToCategory}
         />
       </div>
       
       <main className="pt-[97px]">
-        {view === 'home' && (
-          <>
-            <Hero t={t} onExplore={() => setView('products')} />
-            <Collections 
-              t={t} 
-              onCategoryClick={navigateToCategory} 
-              isHome={true} 
-              activeCategory={categoryFilter}
-            />
-            <ProductGrid 
-              t={t} 
-              products={PRODUCTS.slice(0, 16)} 
-              formatPrice={formatPrice} 
-              language={language}
-              onProductClick={navigateToProduct}
-            />
-          </>
+        {view === 'home' && <Hero t={t} onExplore={() => navigateToCategory(t.allProducts)} />}
+        
+        {/* Collection menu is now stable outside conditional logic for better performance */}
+        {view !== 'product-detail' && (
+          <Collections 
+            t={t} onCategoryClick={navigateToCategory} 
+            isHome={view === 'home'} activeCategory={categoryFilter}
+          />
         )}
 
-        {view !== 'home' && (
-          <>
-            <Collections 
-              t={t} 
-              onCategoryClick={navigateToCategory} 
-              isHome={false} 
-              activeCategory={categoryFilter}
-            />
-            {view === 'products' && (
-              <ProductsPage 
-                t={t} 
-                formatPrice={formatPrice} 
-                language={language} 
-                onSelect={navigateToProduct}
-                categoryFilter={categoryFilter}
-              />
-            )}
-            {view === 'product-detail' && selectedProduct && (
-              <ProductDetailPage 
-                product={selectedProduct} 
-                formatPrice={formatPrice} 
-                language={language} 
-                t={t}
-                onBack={() => setView('products')}
-              />
-            )}
-          </>
+        {view === 'home' && (
+          <ProductGrid 
+            t={t} products={PRODUCTS.slice(0, 16)} 
+            formatPrice={formatPrice} language={language}
+            onProductClick={navigateToProduct}
+          />
+        )}
+
+        {view === 'products' && (
+          <ProductsPage 
+            t={t} formatPrice={formatPrice} 
+            language={language} onSelect={navigateToProduct}
+            categoryFilter={categoryFilter}
+          />
+        )}
+
+        {view === 'product-detail' && selectedProduct && (
+          <ProductDetailPage 
+            product={selectedProduct} formatPrice={formatPrice} 
+            language={language} t={t}
+            onBack={() => setView('products')}
+          />
         )}
       </main>
 
-      <Footer t={t} onLinkClick={(cat) => navigateToCategory(cat)} />
+      <Footer t={t} onLinkClick={navigateToCategory} />
     </div>
   );
 };

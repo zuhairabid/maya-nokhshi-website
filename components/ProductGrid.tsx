@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, memo } from 'react';
 import { Product, Language, TranslationStrings } from '../types';
 
 interface ProductCardProps {
@@ -9,11 +9,10 @@ interface ProductCardProps {
   onProductClick: (product: Product) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, formatPrice, language, onProductClick }) => {
+const ProductCard = memo(({ product, formatPrice, language, onProductClick }: ProductCardProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Handle manual dot clicks
   const scrollToImage = (index: number) => {
     if (scrollRef.current) {
       const width = scrollRef.current.offsetWidth;
@@ -25,7 +24,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, formatPrice, languag
     }
   };
 
-  // Sync index on scroll/swipe
   const handleScroll = () => {
     if (scrollRef.current) {
       const width = scrollRef.current.offsetWidth;
@@ -36,10 +34,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, formatPrice, languag
 
   return (
     <div className="group cursor-pointer flex flex-col h-full">
-      {/* Image Container */}
       <div className="relative aspect-[4/5] bg-stone-100 mb-4 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 rounded-sm">
-        
-        {/* Swipable Image List */}
         <div 
           ref={scrollRef}
           onScroll={handleScroll}
@@ -54,23 +49,22 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, formatPrice, languag
               <img 
                 src={img} 
                 alt={`${product.name.EN} view ${idx + 1}`}
-                className="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 transition-all duration-1000"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 transition-all duration-700"
               />
             </div>
           ))}
         </div>
 
-        {/* Hover Frame (Desktop Only) */}
         <div className="hidden md:block absolute inset-4 border border-[#C5A059]/0 group-hover:border-[#C5A059]/30 transition-all duration-500 pointer-events-none"></div>
 
-        {/* Select Options Button (Desktop Only) */}
         <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
           <button className="bg-white/95 backdrop-blur-sm px-6 py-3 text-[9px] uppercase tracking-[0.2em] font-bold text-stone-900 border border-stone-200 pointer-events-auto hover:bg-[#C5A059] hover:text-white transition-colors">
             View Details
           </button>
         </div>
 
-        {/* Swipe Hint for Mobile (Only visible if more than 1 image) */}
         {product.images.length > 1 && (
           <div className="md:hidden absolute bottom-2 right-2 bg-black/20 backdrop-blur-md px-2 py-1 rounded text-[8px] text-white font-bold uppercase tracking-widest pointer-events-none">
             Swipe
@@ -78,7 +72,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, formatPrice, languag
         )}
       </div>
 
-      {/* Navigation Dots (Desktop mostly, but functional on all) */}
       {product.images.length > 1 && (
         <div className="flex justify-center space-x-1.5 mb-3">
           {product.images.map((_, idx) => (
@@ -99,7 +92,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, formatPrice, languag
         </div>
       )}
 
-      {/* Product Info */}
       <div className="text-center px-2 flex-grow flex flex-col justify-end" onClick={() => onProductClick(product)}>
         <p className="text-[8px] md:text-[9px] uppercase tracking-widest text-stone-400 mb-1 font-semibold">
           {product.category}
@@ -118,7 +110,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, formatPrice, languag
       `}</style>
     </div>
   );
-};
+});
 
 interface ProductGridProps {
   t: TranslationStrings;
@@ -128,11 +120,9 @@ interface ProductGridProps {
   onProductClick: (product: Product) => void;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ t, products, formatPrice, language, onProductClick }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ products, formatPrice, language, onProductClick }) => {
   return (
     <section className="py-6 md:py-10 px-4 md:px-6 max-w-7xl mx-auto">
-      {/* "Curated Masterpieces" Header removed as requested */}
-      
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-x-8 md:gap-y-16">
         {products.map((product) => (
           <ProductCard 
@@ -148,4 +138,4 @@ const ProductGrid: React.FC<ProductGridProps> = ({ t, products, formatPrice, lan
   );
 };
 
-export default ProductGrid;
+export default memo(ProductGrid);

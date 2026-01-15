@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { memo } from 'react';
 import { TranslationStrings } from '../types';
 
 interface CollectionsProps {
@@ -58,4 +58,4 @@ const Collections: React.FC<CollectionsProps> = ({ t, onCategoryClick, isHome = 
   );
 };
 
-export default Collections;
+export default memo(Collections);
