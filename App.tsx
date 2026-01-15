@@ -9,6 +9,7 @@ import ProductGrid from './components/ProductGrid';
 import Values from './components/Values';
 import Footer from './components/Footer';
 import Marquee from './components/Marquee';
+import FilterBar from './components/FilterBar';
 
 const ProductDetailPage: React.FC<{
   product: Product;
@@ -60,19 +61,32 @@ const ProductsPage: React.FC<{
   onSelect: (p: Product) => void;
   categoryFilter?: string;
 }> = ({ t, formatPrice, language, onSelect, categoryFilter }) => {
-  const filteredProducts = useMemo(() => 
-    categoryFilter ? PRODUCTS.filter(p => p.category === categoryFilter) : PRODUCTS
-  , [categoryFilter]);
+  const [sortBy, setSortBy] = useState('Newest');
+
+  const processedProducts = useMemo(() => {
+    let list = categoryFilter ? PRODUCTS.filter(p => p.category === categoryFilter) : PRODUCTS;
+    
+    if (sortBy === 'Price: Low to High') {
+      return [...list].sort((a, b) => a.price - b.price);
+    } else if (sortBy === 'Price: High to Low') {
+      return [...list].sort((a, b) => b.price - a.price);
+    }
+    // Default or Newest (assuming ID reflects order)
+    return list;
+  }, [categoryFilter, sortBy]);
 
   return (
     <div className="pt-12 pb-24 px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-20">
+      <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-serif mb-6">{categoryFilter || t.allProducts}</h1>
         <div className="w-16 h-[1.5px] bg-[#C5A059] mx-auto"></div>
       </div>
+
+      <FilterBar onSortChange={setSortBy} />
+
       <ProductGrid 
         t={t} 
-        products={filteredProducts} 
+        products={processedProducts} 
         formatPrice={formatPrice} 
         language={language}
         onProductClick={onSelect}
