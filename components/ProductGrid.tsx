@@ -34,11 +34,15 @@ const ProductCard = memo(({ product, formatPrice, language, onProductClick }: Pr
 
   return (
     <div className="group cursor-pointer flex flex-col h-full">
+      {/* Image Container */}
       <div className="relative aspect-[4/5] bg-stone-100 mb-4 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 rounded-sm">
+        
+        {/* Swipable Image List */}
+        {/* Updated touch classes to allow vertical scrolling (touch-pan-y) */}
         <div 
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex h-full w-full overflow-x-auto snap-x snap-mandatory no-scrollbar touch-pan-x"
+          className="flex h-full w-full overflow-x-auto snap-x snap-mandatory no-scrollbar touch-pan-x touch-pan-y"
         >
           {product.images.map((img, idx) => (
             <div 
@@ -51,20 +55,23 @@ const ProductCard = memo(({ product, formatPrice, language, onProductClick }: Pr
                 alt={`${product.name.EN} view ${idx + 1}`}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 transition-all duration-700"
+                className="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 transition-all duration-700 pointer-events-none"
               />
             </div>
           ))}
         </div>
 
+        {/* Hover Frame (Desktop Only) */}
         <div className="hidden md:block absolute inset-4 border border-[#C5A059]/0 group-hover:border-[#C5A059]/30 transition-all duration-500 pointer-events-none"></div>
 
+        {/* Select Options Button (Desktop Only) */}
         <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
           <button className="bg-white/95 backdrop-blur-sm px-6 py-3 text-[9px] uppercase tracking-[0.2em] font-bold text-stone-900 border border-stone-200 pointer-events-auto hover:bg-[#C5A059] hover:text-white transition-colors">
             View Details
           </button>
         </div>
 
+        {/* Swipe Hint for Mobile (Only visible if more than 1 image) */}
         {product.images.length > 1 && (
           <div className="md:hidden absolute bottom-2 right-2 bg-black/20 backdrop-blur-md px-2 py-1 rounded text-[8px] text-white font-bold uppercase tracking-widest pointer-events-none">
             Swipe
@@ -72,6 +79,7 @@ const ProductCard = memo(({ product, formatPrice, language, onProductClick }: Pr
         )}
       </div>
 
+      {/* Navigation Dots */}
       {product.images.length > 1 && (
         <div className="flex justify-center space-x-1.5 mb-3">
           {product.images.map((_, idx) => (
@@ -92,6 +100,7 @@ const ProductCard = memo(({ product, formatPrice, language, onProductClick }: Pr
         </div>
       )}
 
+      {/* Product Info */}
       <div className="text-center px-2 flex-grow flex flex-col justify-end" onClick={() => onProductClick(product)}>
         <p className="text-[8px] md:text-[9px] uppercase tracking-widest text-stone-400 mb-1 font-semibold">
           {product.category}
